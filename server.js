@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
 import authorRoute from './services/routes/author.route.js';
+import blogPostRouter from "./services/routes/blogPost.route.js";
 
 // caricare le variabili da .env
 config();
@@ -18,6 +19,9 @@ app.use(express.json());
 // Importa routes:
 // http/localhost:3000/authors
 app.use("/authors", authorRoute);
+// http/localhost:3000/blogPost
+app.use("/blogPost", blogPostRouter);
+
 
 // Funzione per inizializzare il server
 const inittserver = async () => {
