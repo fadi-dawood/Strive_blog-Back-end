@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Author from "../models/authors.model.js";
+import cloudinaryMiddleware from "../middlewares/avatar.js"
 
 // Creiamo un nuovo Router 
 const authorRoute = Router();
@@ -80,6 +81,22 @@ authorRoute.delete("/:id", async (req, res) => {
         }
     } catch (err) {
         console.error(err)
+    }
+})
+
+
+// Patch IMG:
+authorRoute.patch("/:id/avatar",cloudinaryMiddleware, async (req, res) => {
+    try {
+        let updatedUser = await Author.findByIdAndUpdate(req.params.id,
+            { avatar: req.file.path },
+            { new: true }
+        );
+        console.log(updatedUser);
+        res.send(updatedUser);
+    } catch (err) {
+        console.log(err);
+        next(err);
     }
 })
 

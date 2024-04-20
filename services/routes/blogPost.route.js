@@ -1,5 +1,6 @@
 import blogPost from "../models/blogPost.model.js";
 import { Router } from "express";
+import cloudinaryMiddleware from "../middlewares/postImg.js"
 
 // creare una rotta:
 const blogPostRouter = Router();
@@ -49,12 +50,29 @@ blogPostRouter.delete("/:id", async (req, res) => {
         if (post) {
             await blogPost.findByIdAndDelete(post);
             res.send("post deleted");
-        } else{
-            res.send("Invali ID"); 
+        } else {
+            res.send("Invali ID");
         }
     } catch (err) {
         console.error(err);
     }
 })
+
+
+// Patch POSTIMG:
+blogPostRouter.patch("/:id/cover", cloudinaryMiddleware, async (req, res) => {
+    try {
+        let updatedPost = await blogPost.findByIdAndUpdate(req.params.id,
+            { cover: req.file.path },
+            { new: true }
+        );
+        res.send(updatedPost);
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+})
+
+
 
 export default blogPostRouter;
