@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Author from "../models/authors.model.js";
 import cloudinaryMiddleware from "../middlewares/avatar.js"
+import { newAuthorMail } from "../mail/newAuthorMail.js";
 
 // Creiamo un nuovo Router 
 const authorRoute = Router();
@@ -39,6 +40,9 @@ authorRoute.post("/", async (req, res) => {
         let author = await Author.create(req.body);
         // mandare la risposta
         res.send(author);
+
+        //mail di conferma:
+        newAuthorMail();
     } catch (err) {
         console.error(err)
     }

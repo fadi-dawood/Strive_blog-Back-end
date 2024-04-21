@@ -1,6 +1,7 @@
 import blogPost from "../models/blogPost.model.js";
 import { Router } from "express";
 import cloudinaryMiddleware from "../middlewares/postImg.js"
+import { newPostMail } from "../mail/newPostMail.js"
 
 // creare una rotta:
 const blogPostRouter = Router();
@@ -30,6 +31,9 @@ blogPostRouter.post("/", async (req, res) => {
     try {
         const post = await blogPost.create(req.body);
         res.send(post);
+
+        // mail di conferma
+        newPostMail();
     } catch (err) {
         console.error(err);
     }
