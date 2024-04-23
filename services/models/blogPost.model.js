@@ -37,11 +37,24 @@ const blogPostSchema = new Schema(
         content: {
             type: String,
             require: true
-        }
+        },
+        comments: [
+            {
+                user: {
+                    type: String,
+                    require: true
+                },
+                comment_content: {
+                    type: String,
+                    require: true
+                }
+            }
+        ]
+
     },
     {
-        collection:"blogPosts"
+        collection: "blogPosts"
     }
 )
 
-export default model ("blogPost",blogPostSchema)
+export default model("blogPost", blogPostSchema)
